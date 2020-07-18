@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Weather Update and forecasting</title>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <!-- Material Design Bootstrap -->
+  <link rel="stylesheet" href="css/mdb.min.css">
+  <!-- Your custom styles (optional) -->
+  <link rel="stylesheet" href="css/style.css">
+
+
+    
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark scrolling-navbar">
+      <a class="navbar-brand" href="#">Weather & Forecast</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarColor01">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#today">Todays Weather</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#tblData">Next 7 days Weather</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+
+
+
+
+    <header>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    
+                    <!-- card start-->
+                    <div class="card" style="min-height: 80vh">
+                        
+                        <!-- card-header -->
+                        <div class="card-header ">
+                            <div class="form-group my-2">
+                                <input class="form-control border border-primary mr-sm-2" type="search" placeholder="Search Place" value="Dhaka" id="search_box" pattern="[a-zA-Z0-9\s]+">
+                            </div>
+                        </div>
+
+                        <!-- card-body -->
+                        <div class="card-body text-center">
+
+                            <!-- location -->
+                            <div class="location">
+                                <div class="city h3">Northampton, GB</div>
+                                <div class="date">Friday 10 January 2020</div>
+                            </div>
+
+                            <!-- current location -->
+                            <div class="current">
+                                <div class="font-weight-bold display-4 my-3"><span class="temp">15</span>°C</div>
+                                <div class="icon h5"></div>
+                                <div class="weather h4 font-italic">Sunny</div>
+                                <div><span class="low">13</span>°c / <span class="low">16</span>°c</div>
+                                <div>Humidity:<span class="humidity">50</span>%</div>
+                            </div>
+
+                            <div class="d-flex flex-wrap my-2 bg-light p-2">
+                                <div class="flex-fill">
+                                    <div>Wind speed : <span class="wind_speed">50</span> mph</div>
+                                </div>
+
+                                <div class="flex-fill">
+                                    <div>Wind deg : <span class="wind_deg">200</span>°</div>
+                                </div>
+                            </div>
+
+                            <div class="sunrise p-2">Sunrise = 5.30 AM</div>
+
+                            <div class="sunset p-2">Sunset = 5.30 AM</div>
+
+                        </div>
+                        
+                        <!-- card-footer -->
+                        <div class="card-footer">
+                            
+                        </div>
+
+                    </div><!-- card end-->
+
+                </div>
+            </div>
+        </div>
+    </header>
+    
+
+
+
+
+
+
+<div class="d-flex justify-content-end mt-5">
+    <button class="btn btn-dark btn-sm my-2" onclick="exportTableToExcel('tblData')">Export To Excel</button>
+</div>
+
+<div class="container-fluid mb-4">
+    <div class="row">
+        <div class="col-md-12 col-12">
+            <div class="table-responsive">
+                <table class="table table-sm  text-center table-striped forecast_list" id="tblData">
+                    <thead>
+                        <tr >
+                            <th class="font-weight-bold">No.</th>
+                            <th class="font-weight-bold">Date</th>
+                            <th class="font-weight-bold">Day</th>
+                            <th class="font-weight-bold">Current Temp</th>
+                            <th class="font-weight-bold">Low Temp</th>
+                            <th class="font-weight-bold">High Temp</th>
+                            <th class="font-weight-bold">Weather</th>
+                            <th class="font-weight-bold">Icon</th>
+                            <th class="font-weight-bold">Wind Speed</th>
+                            <th class="font-weight-bold">City</th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="weather_status">
+
+                    </tbody>
+
+                </table>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyA7Wtvn5FiBjysmaH4r6VZ9wna5uvOtf2s&sensor=false"></script>  -->
+
+
+
+  <!-- jQuery -->
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/popper.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/mdb.min.js"></script>
+  <script type="text/javascript" src="js/forecast.js"></script>
+
+  <!-- Your custom scripts (optional) -->
+
+  <!-- export to excel -->
+    <script type="text/javascript">
+        function exportTableToExcel(tableID, filename = ''){
+            var downloadLink;
+            var dataType = 'application/vnd.ms-excel';
+            var tableSelect = document.getElementById(tableID);
+            var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+            
+            // Specify file name
+            filename = filename?filename+'.xls':'excel_data.xls';
+
+            // Create download link element
+            downloadLink = document.createElement("a");
+            
+            document.body.appendChild(downloadLink);
+            
+            if(navigator.msSaveOrOpenBlob){
+                var blob = new Blob(['\ufeff', tableHTML], {
+                    type: dataType
+                });
+                navigator.msSaveOrOpenBlob( blob, filename);
+            }else{
+                // Create a link to the file
+                downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+
+                // Setting the file name
+                downloadLink.download = filename;
+
+                //triggering the function
+                downloadLink.click();
+            }
+        }
+    </script>
+
+
+
+</body>
+</html>

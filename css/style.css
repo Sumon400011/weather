@@ -1,0 +1,8 @@
+/* Required for full background image */
+@import url("https://fonts.googleapis.com/css?family=Nunito+Sans:400,600&display=swap");
+html,
+body{
+    scroll-behavior: smooth;
+    font-family: Nunito, sans-serif;
+    background-color: #F1F3F4;
+}
